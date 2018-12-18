@@ -27,39 +27,46 @@ class Ball(Object):
         self.start = True
         super().__init__(x1, y1, x2, y2, vx, vy, color, outline, tag)
 
+    def __del__(self):
+        print("ball del")
+
     def drawObject(self, canvas):
         canvas.create_oval(self.x1, self.y1, self.x2, self.y2, fill=self.color, outline=self.outline, tag=self.tag)
 
-    def moveObject(self, height=None, width=None, object1=None, object2=None, scoreL=None, scoreR=None):
+    def moveObject(self, height=None, width=None, objects=None, scores=None):
         if height != None:
             if self.y1 <= 0 or self.y2 >= height:
                 self.vy = -self.vy
         if width != None:
             if self.x1 <= 0:
-                if scoreR != None:
-                    scoreR.value += 1
+                if scores != None:
+                    scores[1].value += 1
                 self.x1 = width/2 - self.sizex / 2
                 self.x2 = width/2 + self.sizex / 2
                 self.y1 = height/2 - self.sizey / 2
                 self.y2 = height/2 + self.sizey / 2
                 self.start = True
             elif self.x2 >= width:
-                if scoreL != None:
-                    scoreL.value += 1
+                if scores != None:
+                    scores[0].value += 1
                 self.x1 = width/2 - self.sizex / 2
                 self.x2 = width/2 + self.sizex / 2
                 self.y1 = height/2 - self.sizey / 2
                 self.y2 = height/2 + self.sizey / 2
                 self.start = True
-        if object1 != None:
-            if (self.y2 - self.sizey / 2 >= object1.y1 and self.y1 + self.sizey / 2 <= object1.y2) and self.x1 <= object1.x2:
+        if objects != None:
+            if (self.y2 - self.sizey / 2 >= objects[0].y1 and self.y1 + self.sizey / 2 <= objects[0].y2) and self.x1 <= objects[0].x2:
                 self.vx = -self.vx
-        if object2 != None:
-            if (self.y2 - self.sizey / 2 >= object2.y1 and self.y1 + self.sizey / 2 <= object2.y2) and self.x2 >= object2.x1:
+                self.last_touch = 1
+            if (self.y2 - self.sizey / 2 >= objects[1].y1 and self.y1 + self.sizey / 2 <= objects[1].y2) and self.x2 >= objects[1].x1:
                 self.vx = -self.vx
+                self.last_touch = 2
         super().moveObject()
 
-class Table(Object):
+class Paddle(Object):
+    def __del__(self):
+        print("paddle del")
+
     def drawObject(self, canvas):
         canvas.create_rectangle(self.x1, self.y1, self.x2, self.y2, fill=self.color, outline=self.outline, tag=self.tag)
 
