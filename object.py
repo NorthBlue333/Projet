@@ -36,9 +36,6 @@ class Ball(Object):
         self.start = True
         super().__init__(x1, y1, x2, y2, sizex, sizey, sx, sy, color, outline, tag)
 
-    def __del__(self):
-        print("ball del")
-
     def drawObject(self, canvas):
         canvas.create_oval(self.x1, self.y1, self.x2, self.y2, fill=self.color, outline=self.outline, tag=self.tag)
 
@@ -112,9 +109,6 @@ class Ball(Object):
         super().moveObject()
 
 class Paddle(Object):
-    def __del__(self):
-        print("paddle del")
-
     def drawObject(self, canvas):
         canvas.create_rectangle(self.x1, self.y1, self.x2, self.y2, fill=self.color, outline=self.outline, tag=self.tag)
 
@@ -133,9 +127,9 @@ class Paddle(Object):
 class Bubble(Object):
     def __init__(self, x1, y1, number, x2=0, y2=0, sizex=0, sizey=0, sx=0, sy=0, color="black", outline="black", tag=""):
         self.number = number
-        if number < 3:
+        if number < 2:
             self.color = "yellow"
-        elif 3 <= number < 6:
+        elif number == 2:
             self.color = "green"
         else:
             self.color = "red"
