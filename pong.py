@@ -26,7 +26,11 @@ speed = tk.DoubleVar()
 speed.set(1.5)
 color = 0
 colors = [Color("white", "black"),
-          Color("black", "white")]
+          Color("black", "white"),
+          Color("white", "blue"),
+          Color("black", "blue"),
+          Color("white", "red"),
+          Color("black", "red")]
 start_time = 0
 
 def change_frame(frame_name):
